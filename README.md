@@ -13,7 +13,9 @@ yayabookは「Markdownで書かれた文書をPandocでLaTeX形式に変換し�
 ## 入力に用いるMarkdownの形式 {#about-markdown-format}
 基本的にはPandocによる拡張Markdownを用いますが、以下のオプションを加えています。
 
-- `+ignore_line_breaks`
+`+ignore_line_breaks`
+:    改行を半角スペースに変換しません。
+
 
 ## ドキュメントクラス {#about-documentclass}
 ドキュメントクラスにはbxjsbook.clsをもとにした（といっても現状はなにも変更していませんが）yayabook.clsを用います。
@@ -24,12 +26,15 @@ yayabookは「Markdownで書かれた文書をPandocでLaTeX形式に変換し�
     - 動作確認はTeXLive 2018で行っています。必ずしも2018である必要はありませんが、LuaLaTeX(-ja)を利用するためある程度新しい必要があります。
     - フルインストールである必要はありませんが、LuaLaTeXの日本語環境やLatexmkが必要なことに注意してください。
 - Make
+- Pandoc
 
 ## 導入 {#install}
-```shell
-$ git clone https://github.com/suzusime/yayabook.git && cd yaya
+```bash
+$ git clone https://github.com/suzusime/yayabook.git && cd yayabook
 $ make  #このサンプル文書をビルドします
 ```
+
+入力するファイルを`README.md`から変更したい場合は、`Makefile`を開いて`filename`変数を変更してください。
 
 # 原稿の書き方 {#how-to-write-book}
 ## YAMLヘッダ {#yaml-header}
