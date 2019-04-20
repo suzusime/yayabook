@@ -1,4 +1,4 @@
-filename=sample
+filename=README
 
 .PHONY: all clean
 
@@ -7,7 +7,7 @@ all: $(filename).pdf
 $(filename).pdf: intermediate/$(filename).pdf
 	cp intermediate/$(filename).pdf .
 
-intermediate/$(filename).pdf: intermediate/$(filename).tex
+intermediate/$(filename).pdf: intermediate/$(filename).tex yayabook.cls
 	latexmk -lualatex -output-directory=intermediate intermediate/$(filename).tex
 
 intermediate/$(filename).tex: $(filename).md
