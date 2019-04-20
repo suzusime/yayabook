@@ -15,3 +15,4 @@ intermediate/$(filename).tex:
  
 clean:
 	cd intermediate; git clean -dfX
+	rm $(filename).pdf
