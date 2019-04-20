@@ -4,7 +4,7 @@ author: "suzusime"
 documentclass: "yayabook"
 papersize: b5
 classoption: ["pandoc", "magstyle=nomag*", "jafont=ipaex"]
-...
+---
 
 # はじめに {#first}
 ## これは何？ {#what-is-it}
