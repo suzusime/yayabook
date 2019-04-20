@@ -44,7 +44,7 @@ author: "suzusime"
 documentclass: "yayabook"
 papersize: b5
 classoption: ["pandoc", "magstyle=nomag*", "jafont=ipaex"]
-...
+---
 ```
 
 紙の大きさは`a4`、`b5`のように指定します。
