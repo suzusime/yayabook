@@ -1,0 +1,8 @@
+USEPDFLATEX = true
+PDFLATEX = lualatex
+# PDFLATEXFLAGS = 
+TEXINPUTS += ..
+
+LaTeXDocument($(filename), $(filename))
+
+.DEFAULT: $(filename).pdf
