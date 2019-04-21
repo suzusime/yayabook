@@ -3,6 +3,20 @@ PDFLATEX = lualatex
 # PDFLATEXFLAGS = 
 TEXINPUTS += ..
 
-LaTeXDocument($(filename), $(filename))
+LaTeXDocument($(TARGET), $(TARGET))
+LocalTeXGeneratedFiles($(TARGET).tex)
 
-.DEFAULT: $(filename).pdf
+
+PANDOCARGS = -f markdown+ignore_line_breaks -t latex -N --chapter --latex-engine=lualatex
+
+.DEFAULT: $(TARGET).pdf
+.PHONY: clean
+
+$(TARGET).tex: ../$(TARGET).md
+	cd ..; pandoc $(PANDOCARGS) --standalone -o intermediate/$@ $(TARGET).md
+
+%.tex: ../%.md
+	cd ..; pandoc $(PANDOCARGS) -o intermediate/$@ $*.md
+
+clean:
+	git clean -dfX
