@@ -6,3 +6,4 @@
 *.omc
 .omakedb
 .omakedb.lock
+.DS_Store

@@ -127,7 +127,7 @@ INCLUDES = article1 article2
 TeXファイルは`./intermediate`ディレクトリの中に生成されますが、
 画像その他外部ファイルへの参照の基準は`.`にしてください。
 
-![琵琶を弾いている様子](images/biwa.jpg)
+![琵琶を弾いている様子](images/biwa.jpg){ width=50mm }
 
 ## パッケージの追加方法
 YAMLヘッダに
