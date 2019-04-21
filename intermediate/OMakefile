@@ -1,6 +1,6 @@
 USEPDFLATEX = true
-PDFLATEX = lualatex
-# PDFLATEXFLAGS = 
+PDFLATEX = latexmk
+PDFLATEXFLAGS = -lualatex
 TEXINPUTS += ..
 
 LaTeXDocument($(TARGET), $(TARGET))
