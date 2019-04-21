@@ -4,12 +4,10 @@ PDFLATEX = lualatex
 TEXINPUTS += ..
 
 LaTeXDocument($(TARGET), $(TARGET))
-LocalTeXGeneratedFiles($(TARGET).tex)
-
+TeXGeneratedFiles($(addsuffix .tex,$(INCLUDES)))
 
 PANDOCARGS = -f markdown+ignore_line_breaks -t latex -N --chapter --latex-engine=lualatex
 
-.DEFAULT: $(TARGET).pdf
 .PHONY: clean
 
 $(TARGET).tex: ../$(TARGET).md

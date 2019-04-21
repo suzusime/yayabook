@@ -18,23 +18,23 @@ yayabookは「Markdownで書かれた文書をPandocでLaTeX形式に変換し�
 
 
 ## ドキュメントクラス
-ドキュメントクラスにはbxjsbook.clsをもとにした（といっても現状はなにも変更していませんが）yayabook.clsを用います。
+ドキュメントクラスにはbxjsbook.clsを基にしたyayabook.clsを用います。
 
 # 使用方法
 ## 依存
 - TexLive
     - 動作確認はTeXLive 2018で行っています。必ずしも2018である必要はありませんが、LuaLaTeX(-ja)を利用するためある程度新しい必要があります。
-    - フルインストールである必要はありませんが、LuaLaTeXの日本語環境やLatexmkが必要なことに注意してください。
-- Make
+    - フルインストールである必要はありませんが、LuaLaTeXの日本語環境が必要なことに注意してください。
+- OMake
 - Pandoc
 
 ## 導入
 ```bash
 $ git clone https://github.com/suzusime/yayabook.git && cd yayabook
-$ make  #このサンプル文書をビルドします
+$ omake  #このサンプル文書をビルドします
 ```
 
-入力するファイルを`README.md`から変更したい場合は、`Makefile`を開いて`filename`変数を変更してください。
+入力するファイルを`README.md`から変更したい場合は、`OMakefile`を開いて`TARGET`変数を変更してください。
 
 # 原稿の書き方
 ## YAMLヘッダ
@@ -90,3 +90,29 @@ classoption: ["pandoc", "magstyle=nomag*", "jafont=ipaex"]
 ```
 
 と書けば、[導入]とリンクになります。
+
+## 他のファイルの挿入
+原稿の中に他の原稿ファイル（例えば`article1.md`）を取り込みたい場合は、インラインLaTeX記法（Markdown中に通常のLaTeXの記法で書く）で、
+
+```latex
+\include{article1}
+```
+
+などと書いてください。
+挿入後に改頁を入れたくない場合は
+
+```latex
+\include*{article1}
+```
+
+のように`*`をつけてください（newcludeパッケージの機能です）。
+
+これだけでは依存ファイルがpandocによりビルドされないので、`OMakefile`の`INCLUDES`にファイル名を拡張子なし、スペース区切りで追記してください。
+
+```
+INCLUDES = article1 article2
+```
+
+挿入はたとえば次のようになります。
+
+\include*{article1}

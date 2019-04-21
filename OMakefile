@@ -1,3 +1,14 @@
 TARGET = README
+INCLUDES = article1
+
+.DEFAULT: $(TARGET).pdf
+
+.PHONY: clean
+
+$(TARGET).pdf: intermediate/$(TARGET).pdf
+	cp($< $@)
+
+clean:
+	$(rm -f $(TARGET).pdf)
 
 .SUBDIRS: intermediate

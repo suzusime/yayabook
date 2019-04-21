@@ -6,3 +6,5 @@
 % microtypeのバグを回避
 % \usepackage{luatexbase}
 
+% 改頁なしのinclude等を提供
+\usepackage{newclude}
