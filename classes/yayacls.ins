@@ -1,0 +1,9 @@
+%% yayacls.ins : installer file for yayacls.dtx
+\def\batchfile{yayacls.ins}
+\input docstrip.tex
+\keepsilent
+\generateFile{yayaarticle.cls}{f}{\from{yayacls.dtx}{article}}
+\generateFile{yayareport.cls}{f}{\from{yayacls.dtx}{report}}
+\generateFile{yayabook.cls}{f}{\from{yayacls.dtx}{book}}
+\generateFile{yayaslide.cls}{f}{\from{yayacls.dtx}{slide}}
+%% EOF

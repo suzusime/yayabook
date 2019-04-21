@@ -1,0 +1,11 @@
+YAYACLASSES = yayaarticle.cls yayareport.cls yayabook.cls yayaslide.cls
+
+.DEFAULT: $(YAYACLASSES)
+
+.PHONY: clean
+
+$(YAYACLASSES): %.cls: yayacls.ins yayacls.dtx
+	lualatex yayacls.ins
+
+clean:
+	git clean -dfX

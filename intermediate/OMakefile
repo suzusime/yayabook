@@ -1,14 +1,14 @@
 USEPDFLATEX = true
 PDFLATEX = latexmk
 PDFLATEXFLAGS = -lualatex
-TEXINPUTS += ..
+TEXINPUTS += .. ../classes
 
 LaTeXDocument($(TARGET), $(TARGET))
-TeXGeneratedFiles($(addsuffix .tex,$(INCLUDES)))
+TeXGeneratedFiles(../classes/yayabook.cls $(addsuffix .tex,$(INCLUDES)))
 
 PANDOCARGS = -f markdown+ignore_line_breaks -t latex -N --top-level-division=chapter --pdf-engine=lualatex
 
-.PHONY: clean
+.PHONY: yayaclasses clean
 
 $(TARGET).tex: ../$(TARGET).md
 	cd ..; pandoc $(PANDOCARGS) --standalone -o intermediate/$@ $(TARGET).md
@@ -16,5 +16,8 @@ $(TARGET).tex: ../$(TARGET).md
 %.tex: ../%.md
 	cd ..; pandoc $(PANDOCARGS) -o intermediate/$@ $*.md
 
+yayabook.cls: ../yayacls.ins ../yayacls.dtx
+	lualatex ../yayacls.ins
+	
 clean:
 	git clean -dfX

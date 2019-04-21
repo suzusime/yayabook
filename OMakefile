@@ -11,4 +11,4 @@ $(TARGET).pdf: intermediate/$(TARGET).pdf
 clean:
 	$(rm -f $(TARGET).pdf)
 
-.SUBDIRS: intermediate
+.SUBDIRS: classes intermediate
