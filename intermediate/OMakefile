@@ -9,7 +9,7 @@ PANDOCARGS = -f markdown+ignore_line_breaks -t latex -N --top-level-division=cha
 
 .PHONY: clean
 
-$(TARGET).pdf: $(TARGET).tex $(INCLUDETEXS)
+$(TARGET).pdf: $(addprefix ../classes/, $(YAYACLASSES)) $(TARGET).tex $(INCLUDETEXS)
 	$(PDFLATEX) $(PDFLATEXFLAGS) $(TARGET).tex
 
 $(TARGET).tex: ../$(TARGET).md

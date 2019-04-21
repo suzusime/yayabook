@@ -1,6 +1,8 @@
 TARGET = README
 INCLUDES = article1
 
+YAYACLASSES = yayaarticle.cls yayareport.cls yayabook.cls yayaslide.cls
+
 .DEFAULT: $(TARGET).pdf
 
 .PHONY: clean
