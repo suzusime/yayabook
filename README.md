@@ -2,8 +2,8 @@
 title: "この雛型の使い方"
 author: "suzusime"
 documentclass: "yayabook"
-papersize: b5
-classoption: ["pandoc", "magstyle=nomag*", "jafont=ipaex"]
+papersize: a5
+classoption: ["pandoc", "jbase=12Q", "magstyle=nomag*", "jafont=ipaex"]
 ---
 
 # はじめに
@@ -27,7 +27,8 @@ yayabookは「Markdownで書かれた文書をPandocでLaTeX形式に変換し�
     - フルインストールである必要はありませんが、LuaLaTeXの日本語環境とLatexmkが必要なことに注意してください。
 - OMake
     - Windowsにも一応OMakeはインストールできますが、これとWindows版LaTeXを組み合わせると動かないようです。Windowsの場合はWSLを使ってください。
-- Pandoc
+- Pandoc（バージョン2）
+    - オプションが一部変わっているのでバージョン2が必要です。Debian stretchのリポジトリにはまだバージョン2がないので、使っている方は別の方法で入れてください。
 
 ## 導入
 ```bash
@@ -38,8 +39,12 @@ $ omake  #このサンプル文書をビルドします
 入力するファイルを`README.md`から変更したい場合は、`OMakefile`を開いて`TARGET`変数を変更してください。
 
 # 原稿の書き方
+この章ではPandoc拡張Markdownやyayabookで行っている設定に起因する、通常のMarkdownやTeXの記法との差異として注意する点について解説します。
+Pandoc拡張Markdownについての詳細は[公式ドキュメントの日本語訳](http://sky-y.github.io/site-pandoc-jp/users-guide/)を参照してください。
+yayabookが内部で呼び出しているbxjsclsについての詳細は、[TeX Wikiのページ](https://texwiki.texjp.org/?BXjscls)及び[公式ドキュメント](https://github.com/zr-tex8r/BXjscls/blob/master/bxjscls-manual.pdf)を参照してください。
+
 ## YAMLヘッダ
-原稿の題、著者名、およびドキュメントクラスに渡す書式に関する諸情報は、pandoc拡張MarkdownのYAMLヘッダによって定義します。
+原稿の題、著者名、およびドキュメントクラスに渡す書式に関する諸情報は、Pandoc拡張MarkdownのYAMLヘッダによって定義します。
 
 たとえばこの文書の場合は次のようになります。
 
@@ -48,7 +53,7 @@ $ omake  #このサンプル文書をビルドします
 title: "この雛型の使い方"
 author: "suzusime"
 documentclass: "yayabook"
-papersize: b5
+papersize: a5
 classoption: ["pandoc", "magstyle=nomag*", "jafont=ipaex"]
 ---
 ```
@@ -100,7 +105,7 @@ classoption: ["pandoc", "magstyle=nomag*", "jafont=ipaex"]
 ```
 
 などと書いてください。
-挿入後に改頁を入れたくない場合は
+挿入前に改頁を入れたくない場合は
 
 ```latex
 \include*{article1}
@@ -117,3 +122,18 @@ INCLUDES = article1 article2
 挿入はたとえば次のようになります。
 
 \include*{article1}
+
+## 画像などの挿入
+TeXファイルは`./intermediate`ディレクトリの中に生成されますが、
+画像その他外部ファイルへの参照の基準は`.`にしてください。
+
+## パッケージの追加方法
+YAMLヘッダに
+
+```yaml
+header-includes: |
+  \usepackage{braket}
+  \usepackage{lmodern}
+```
+
+のように書き連ねてください。

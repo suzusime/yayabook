@@ -6,7 +6,7 @@ TEXINPUTS += ..
 LaTeXDocument($(TARGET), $(TARGET))
 TeXGeneratedFiles($(addsuffix .tex,$(INCLUDES)))
 
-PANDOCARGS = -f markdown+ignore_line_breaks -t latex -N --chapter --latex-engine=lualatex
+PANDOCARGS = -f markdown+ignore_line_breaks -t latex -N --top-level-division=chapter --pdf-engine=lualatex
 
 .PHONY: clean
 
