@@ -50,3 +50,23 @@ desc "#{TARGET}.md をもとに #{TARGET}.pdf を生成する"
 file "#{TARGET}.pdf" => "intermediate/#{TARGET}.pdf" do |t|
   cp(t.source, t.to_s)
 end
+
+# 継続ビルド
+sleep_time = 3
+desc "#{sleep_time}毎にビルドを走らせる"
+task :cont do
+  at_exit {
+    loop do
+      system("rake")
+      sleep 5
+    end
+  }
+end
+
+task :clean do
+  rm_f("#{TARGET}.pdf")
+  cd "intermediate" do sh "git clean -dfX" end
+  cd "classes" do sh "git clean -dfX" end
+end
+
+task :default => "#{TARGET}.pdf"
