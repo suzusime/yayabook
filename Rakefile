@@ -2,13 +2,42 @@ TARGET = "README"
 PDFLATEX = "latexmk"
 PDFLATEXFLAGS = "-lualatex"
 
-pandoc_args = "-f markdown+ignore_line_breaks -t latex -N --top-level-division=chapter --pdf-engine=lualatex"
+# クラスファイルがchapterを持っているか
+HAS_CHAPTER = true
 
 include_files = ["article1"]
 
-# これは自動生成される
+# 自動生成される引数たち
+pandoc_args = ""
 include_texs = []
 cls_files = []
+
+# pandocのバージョンを判別
+def get_pandoc_version()
+  rawtext = `pandoc --version`
+  version_string = ""
+  # 1行目の最後にバージョン番号があると仮定する
+  rawtext.each_line { |line|
+    version_string = line.match(/[0-9.]+$/)[0]
+    break
+  }
+  major_version = version_string.match(/^[0-9]+/)[0]
+  return major_version
+end
+
+# pandocのバージョンによって引数を変える
+if get_pandoc_version == "1" then
+  pandoc_args = "-f markdown+ignore_line_breaks -t latex -N --latex-engine=lualatex"
+  if HAS_CHAPTER then
+    pandoc_args += " --chapter"
+  end
+else
+  # バージョン1以外は2と同じと扱う
+  pandoc_args = "-f markdown+ignore_line_breaks -t latex -N --pdf-engine=lualatex"
+  if HAS_CHAPTER then
+    pandoc_args += " --top-level-division=chapter"
+  end
+end
 
 #----- クラスファイルの生成ここから
 YAYACLASSES = ["yayaarticle.cls", "yayareport.cls", "yayabook.cls", "yayaslide.cls"]
@@ -53,7 +82,7 @@ end
 
 # 継続ビルド
 sleep_time = 3
-desc "#{sleep_time}毎にビルドを走らせる"
+desc "#{sleep_time}秒毎にビルドを走らせる"
 task :cont do
   at_exit {
     loop do
