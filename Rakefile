@@ -5,10 +5,12 @@ PDFLATEXFLAGS = "-lualatex"
 # クラスファイルがchapterを持っているか
 HAS_CHAPTER = true
 
-include_files = ["article1"]
+# 自動で解決できないが必要なmdファイル
+ADDITIONAL_INCLUDE = []
 
 # 自動生成される引数たち
 pandoc_args = ""
+include_files = ADDITIONAL_INCLUDE.dup
 include_texs = []
 cls_files = []
 
@@ -40,10 +42,10 @@ else
 end
 
 #----- クラスファイルの生成ここから
-YAYACLASSES = ["yayaarticle.cls", "yayareport.cls", "yayabook.cls", "yayaslide.cls"]
+YAYACLASSES = ["yayaarticle", "yayareport", "yayabook", "yayaslide"]
 
 YAYACLASSES.each do |f|
-  cls_name = "classes/#{f}"
+  cls_name = "classes/#{f}.cls"
   cls_files << cls_name
   file cls_name => ["classes/yayacls.dtx", "classes/yayacls.ins"] do |t|
     cd "classes" do
@@ -51,9 +53,37 @@ YAYACLASSES.each do |f|
     end
   end
 end
+
+desc "clsファイルのみ生成する"
+task :build_cls => cls_files
 #----- クラスファイルの生成ここまで
 
-# #{TARGET}.mdから読み込まれているファイルをTeXに変換
+# #{TARGET}.mdから読み込まれているファイルのリストを生成
+def resolve_dependency(md, dst, scanned)
+  # puts "scanning #{md}.md"
+  file = File.open(md+".md", "r:utf-8")
+  s = file.read
+  found = []
+  s.scan(/\\include\{(.+)\}/) do |m|
+    found << m[0]
+  end
+  s.scan(/\\include\*\{(.+)\}/) do |m|
+    found << m[0]
+  end
+  scanned << md
+  found.each do |f|
+    # 深さ優先探索
+    if !scanned.include?(f) then
+      dst << f
+      resolve_dependency(f, dst, scanned)
+    end
+  end
+end
+
+scanned_mds = [] # 依存関係解析が済んだMarkdown
+resolve_dependency("#{TARGET}", include_files, scanned_mds)
+
+# #{TARGET}.md読み込まれているファイルをTeXに変換
 include_files.each do |f|
   input_md = "#{f}.md"
   texfile_name = "intermediate/#{f}.tex"
@@ -63,10 +93,12 @@ include_files.each do |f|
   end
 end
 
+# #{TARGET}.md自体をTeXに変換
 file "intermediate/#{TARGET}.tex" => ["#{TARGET}.md"] do |t|
   sh "pandoc #{pandoc_args} --standalone -o #{t.to_s} #{t.source}"
 end
 
+# TeXで処理しPDFを生成
 file "intermediate/#{TARGET}.pdf"\
   => ["intermediate/#{TARGET}.tex"] + include_texs + cls_files\
 do |t|

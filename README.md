@@ -10,6 +10,8 @@ classoption: ["pandoc", "jbase=12Q", "magstyle=nomag*", "jafont=ipaex"]
 ## これは何？
 yayabookは「Markdownで書かれた文書をPandocでLaTeX形式に変換し、LuaLaTeXによる処理でPDFを得る」という方法で組版を行うための雛型です。
 
+$$x^2 + y = 0$$
+
 ## 入力に用いるMarkdownの形式
 基本的にはPandocによる拡張Markdownを用いますが、以下のオプションを加えています。
 
@@ -122,6 +124,7 @@ INCLUDES = article1 article2
 挿入はたとえば次のようになります。
 
 \include*{article1}
+\include*{article3}
 
 ## 画像などの挿入
 TeXファイルは`./intermediate`ディレクトリの中に生成されますが、
