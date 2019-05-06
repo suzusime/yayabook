@@ -4,6 +4,8 @@ author: "suzusime"
 documentclass: "yayabook"
 papersize: a5
 classoption: ["pandoc", "jbase=12Q", "magstyle=nomag*", "jafont=ipaex"]
+bibliography: "main.bib"
+# csl: "physical-review-a.csl"
 header-includes: |
   \usepackage{braket}
 ---
@@ -163,3 +165,31 @@ $$ \sqrt{\frac{\pi}{a}} = \int _{-\infty} ^{\infty} e^{-ax^2} dx $$
 と書いてやれば
 $$ \sqrt{\frac{\pi}{a}} = \int _{-\infty} ^{\infty} e^{-ax^2} dx $$
 となるなど、TeXと同じです。
+
+## 文献の引用
+文献の引用は`pandoc-citeproc`によって処理します。
+まず、YAMLヘッダに
+
+```yaml
+bibliography: "main.bib"
+csl: "physical-review-a.csl"
+```
+
+のように設定します。
+`bibliography`がBibLaTeXなどの文献データベースファイル、`csl`が論文誌ごとの文献リストスタイルファイルです[^2]。
+
+[^2]: cslファイルは [https://github.com/citation-style-language/styles](https://github.com/citation-style-language/styles) や [https://www.zotero.org/styles](https://www.zotero.org/styles) で入手できます。公開リポジトリにCSLファイルを含める場合はライセンスに注意して下さい。
+
+この上で、例えば、`[see @kitaev_anyons_2006; @roberts_chaos_2017]`のように書くと、このように[see @kitaev_anyons_2006; @roberts_chaos_2017]なります。
+
+最後には
+
+```markdown
+## 参考文献
+```
+
+のような中身のない見出しを置いておきましょう。
+
+ちなみに、Markdownファイルを分割した場合、文献データベースの指定と文献リストの表示はMarkdownファイルごとに行うことになります（つまり章ごとのような単位で分割することを想定しています）。
+
+## 参考文献

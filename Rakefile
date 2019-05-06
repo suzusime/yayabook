@@ -38,7 +38,7 @@ if get_pandoc_version == "1" then
   end
 else
   # バージョン1以外は2と同じと扱う
-  pandoc_args = "-f markdown+ignore_line_breaks -t latex -N --pdf-engine=lualatex"
+  pandoc_args = "-f markdown+ignore_line_breaks -t latex -N --pdf-engine=lualatex  --filter pandoc-citeproc"
   if HAS_CHAPTER then
     pandoc_args += " --top-level-division=chapter"
   end
