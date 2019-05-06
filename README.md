@@ -24,7 +24,7 @@ yayabookは「Markdownで書かれた文書をPandocでLaTeX形式に変換し�
 
 # 使用方法
 ## 依存
-- [Texive](https://tug.org/texlive/)
+- [TexLive](https://tug.org/texlive/)
     - 動作確認はTeXLive 2018で行っています。必ずしも2018である必要はありませんが、LuaLaTeX(-ja)を利用するためある程度新しい必要があります。
     - フルインストールである必要はありませんが、LuaLaTeXの日本語環境とLatexmkが必要なことに注意してください。
 - [Rake](https://github.com/ruby/rake)
