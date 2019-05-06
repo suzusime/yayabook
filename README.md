@@ -24,21 +24,21 @@ $$x^2 + y = 0$$
 
 # 使用方法
 ## 依存
-- TexLive
+- [TexLive](https://tug.org/texlive/)
     - 動作確認はTeXLive 2018で行っています。必ずしも2018である必要はありませんが、LuaLaTeX(-ja)を利用するためある程度新しい必要があります。
     - フルインストールである必要はありませんが、LuaLaTeXの日本語環境とLatexmkが必要なことに注意してください。
-- OMake
-    - Windowsにも一応OMakeはインストールできますが、これとWindows版LaTeXを組み合わせると動かないようです。Windowsの場合はWSLを使ってください。
-- Pandoc（バージョン2）
-    - オプションが一部変わっているのでバージョン2が必要です。Debian stretchのリポジトリにはまだバージョン2がないので、使っている方は別の方法で入れてください。
+- [Rake](https://github.com/ruby/rake)
+    - Rubyをインストールすると標準でついてきます。
+- [Pandoc](https://pandoc.org/)
+    - バージョン1系とバージョン2系とでコマンドラインオプションが一部変わっていますが、自動で判別して適切なオプションで呼びます。
 
 ## 導入
 ```bash
 $ git clone https://github.com/suzusime/yayabook.git && cd yayabook
-$ omake  #このサンプル文書をビルドします
+$ rake  #このサンプル文書をビルドします
 ```
 
-入力するファイルを`README.md`から変更したい場合は、`OMakefile`を開いて`TARGET`変数を変更してください。
+入力するファイルを`README.md`から変更したい場合は、`Rakefile`を開いて`TARGET`変数を変更してください。
 
 # 原稿の書き方
 この章ではPandoc拡張Markdownやyayabookで行っている設定に起因する、通常のMarkdownやTeXの記法との差異として注意する点について解説します。
@@ -115,10 +115,12 @@ classoption: ["pandoc", "magstyle=nomag*", "jafont=ipaex"]
 
 のように`*`をつけてください（newcludeパッケージの機能です）。
 
-これだけでは依存ファイルがpandocによりビルドされないので、`OMakefile`の`INCLUDES`にファイル名を拡張子なし、スペース区切りで追記してください。
+`\include`または`\include*`で挿入した場合は、自動でそれを検出してpandocで変換します。
+それ以外の方法により挿入する場合は、`Rakefile`の`ADDITIONAL_INCLUDES`にファイル名をRubyの配列形式で書き込んでください。
 
-```
-INCLUDES = article1 article2
+```ruby
+# append1.mdとappend2.mdを追加したいとき
+ADDITIONAL_INCLUDES = ["append1", "append2"]
 ```
 
 挿入はたとえば次のようになります。

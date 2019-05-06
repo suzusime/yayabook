@@ -1,3 +1,3 @@
-ここが挿入されたテキストです。
+ここがarticle1です。
 
 \include*{article2}

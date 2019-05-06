@@ -6,11 +6,11 @@ PDFLATEXFLAGS = "-lualatex"
 HAS_CHAPTER = true
 
 # 自動で解決できないが必要なmdファイル
-ADDITIONAL_INCLUDE = []
+ADDITIONAL_INCLUDES = []
 
 # 自動生成される引数たち
 pandoc_args = ""
-include_files = ADDITIONAL_INCLUDE.dup
+include_files = ADDITIONAL_INCLUDES.dup
 include_texs = []
 cls_files = []
 
@@ -64,10 +64,7 @@ def resolve_dependency(md, dst, scanned)
   file = File.open(md+".md", "r:utf-8")
   s = file.read
   found = []
-  s.scan(/\\include\{(.+)\}/) do |m|
-    found << m[0]
-  end
-  s.scan(/\\include\*\{(.+)\}/) do |m|
+  s.scan(/\\include\*?\{(.+)\}/) do |m|
     found << m[0]
   end
   scanned << md
