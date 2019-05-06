@@ -1,9 +1,12 @@
 TARGET = "README"
-PDFLATEX = "latexmk"
-PDFLATEXFLAGS = "-lualatex"
+LATEXMK = "latexmk"
+LUALATEXCOMMAND = "lualatex %O -synctex=1"
 
 # クラスファイルがchapterを持っているか
 HAS_CHAPTER = true
+
+# TeXでエラーが発生したときに処理を中断するか否か
+NONSTOP_MODE = ENV['NONSTOP'] == "1"
 
 # 自動で解決できないが必要なmdファイル
 ADDITIONAL_INCLUDES = []
@@ -96,11 +99,18 @@ file "intermediate/#{TARGET}.tex" => ["#{TARGET}.md"] do |t|
 end
 
 # TeXで処理しPDFを生成
+lualatex_com = LUALATEXCOMMAND
+if NONSTOP_MODE then
+  lualatex_com += " -interaction=nonstopmode"
+end
+latexmk_args = "-pdf -pdflatex=\"#{lualatex_com} %S\""
+latexmk_command = "#{LATEXMK} #{latexmk_args}"
+
 file "intermediate/#{TARGET}.pdf"\
   => ["intermediate/#{TARGET}.tex"] + include_texs + cls_files\
 do |t|
   cd "intermediate" do
-    sh "#{PDFLATEX} #{PDFLATEXFLAGS} #{TARGET}.tex"
+    sh "#{latexmk_command} #{TARGET}.tex"
   end
 end
 
@@ -115,7 +125,7 @@ desc "#{sleep_time}秒毎にビルドを走らせる"
 task :cont do
   at_exit {
     loop do
-      system("rake")
+      system({"NONSTOP"=> "1"}, "rake")
       sleep 5
     end
   }

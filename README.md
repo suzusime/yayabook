@@ -24,7 +24,7 @@ yayabookは「Markdownで書かれた文書をPandocでLaTeX形式に変換し�
 
 # 使用方法
 ## 依存
-- [TexLive](https://tug.org/texlive/)
+- [Texive](https://tug.org/texlive/)
     - 動作確認はTeXLive 2018で行っています。必ずしも2018である必要はありませんが、LuaLaTeX(-ja)を利用するためある程度新しい必要があります。
     - フルインストールである必要はありませんが、LuaLaTeXの日本語環境とLatexmkが必要なことに注意してください。
 - [Rake](https://github.com/ruby/rake)
@@ -44,7 +44,10 @@ $ rake  #このサンプル文書をビルドします
 ```bash
 $ rake cont
 ```
-としてください\footnote{rakeを定期的に叩いているだけなので、シェルの機能でループさせても同じですが……}。
+としてください[^1]。
+この場合はTeXでの処理中にエラーが発生しても無視して続行します。
+
+[^1]: `NONSTOP=1 rake`を定期的に叩いているだけなので、シェルの機能でループさせても同じですが……
 
 # 原稿の書き方
 この章ではPandoc拡張Markdownやyayabookで行っている設定に起因する、通常のMarkdownやTeXの記法との差異として注意する点について解説します。
