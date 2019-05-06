@@ -4,13 +4,13 @@ author: "suzusime"
 documentclass: "yayabook"
 papersize: a5
 classoption: ["pandoc", "jbase=12Q", "magstyle=nomag*", "jafont=ipaex"]
+header-includes: |
+  \usepackage{braket}
 ---
 
 # はじめに
 ## これは何？
 yayabookは「Markdownで書かれた文書をPandocでLaTeX形式に変換し、LuaLaTeXによる処理でPDFを得る」という方法で組版を行うための雛型です。
-
-$$x^2 + y = 0$$
 
 ## 入力に用いるMarkdownの形式
 基本的にはPandocによる拡張Markdownを用いますが、以下のオプションを加えています。
@@ -32,13 +32,19 @@ $$x^2 + y = 0$$
 - [Pandoc](https://pandoc.org/)
     - バージョン1系とバージョン2系とでコマンドラインオプションが一部変わっていますが、自動で判別して適切なオプションで呼びます。
 
-## 導入
+## 導入 {#install}
 ```bash
 $ git clone https://github.com/suzusime/yayabook.git && cd yayabook
 $ rake  #このサンプル文書をビルドします
 ```
 
 入力するファイルを`README.md`から変更したい場合は、`Rakefile`を開いて`TARGET`変数を変更してください。
+
+ファイルの更新があったときに自動でビルドするようにしたい場合は、
+```bash
+$ rake cont
+```
+としてください\footnote{rakeを定期的に叩いているだけなので、シェルの機能でループさせても同じですが……}。
 
 # 原稿の書き方
 この章ではPandoc拡張Markdownやyayabookで行っている設定に起因する、通常のMarkdownやTeXの記法との差異として注意する点について解説します。
@@ -81,7 +87,7 @@ classoption: ["pandoc", "magstyle=nomag*", "jafont=ipaex"]
 ```
 
 のように書きます。
-実際にこれを試すと[導入](#ux5c0eux5165)のようになります（色がつかずリンクとわかりづらいですが、確かにリンクになっています）。
+実際にこれを試すと[導入](#install)のようになります（色がつかずリンクとわかりづらいですが、確かにリンクになっています）。
 
 上では
 
@@ -94,10 +100,10 @@ classoption: ["pandoc", "magstyle=nomag*", "jafont=ipaex"]
 というのも、参照する側も同じく（TeX処理系での問題がない）ASCII表現になるからで、単に
 
 ```markdown
-[導入]
+[依存]
 ```
 
-と書けば、[導入]とリンクになります。
+と書けば、[依存]とリンクになります。
 
 ## 他のファイルの挿入
 原稿の中に他の原稿ファイル（例えば`article1.md`）を取り込みたい場合は、インラインLaTeX記法（Markdown中に通常のLaTeXの記法で書く）で、
@@ -144,3 +150,13 @@ header-includes: |
 ```
 
 のように書き連ねてください。
+
+## 数式の書き方
+通常のTeXと同じように、文中で`$\psi (x) = \braket{x|\psi}$`のように書けば$\psi (x) = \braket{x|\psi}$になります。
+別行立て数式も
+```tex
+$$ \sqrt{\frac{\pi}{a}} = \int _{-\infty} ^{\infty} e^{-ax^2} dx $$
+```
+と書いてやれば
+$$ \sqrt{\frac{\pi}{a}} = \int _{-\infty} ^{\infty} e^{-ax^2} dx $$
+となるなど、TeXと同じです。
