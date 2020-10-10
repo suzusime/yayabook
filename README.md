@@ -36,7 +36,8 @@ yayabookは「Markdownで書かれた文書をPandocでLaTeX形式に変換し�
 
 ### Ubuntu 20.04の場合
 ```sh
-sudo apt install pandoc pandoc-citeproc texlive texlive-lang-japanese texlive-luatex texlive-fonts-extra latexmk ruby
+sudo apt install pandoc pandoc-citeproc texlive texlive-lang-japanese \
+  texlive-luatex texlive-fonts-extra latexmk ruby
 ```
 
 で依存ソフトウェアが揃うはずです。
